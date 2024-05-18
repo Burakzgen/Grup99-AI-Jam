@@ -30,6 +30,8 @@ public class WalkerAgent : Agent
     [Header("Targets To Walk Towards")]
     public List<Transform> targets;
     private int currentTargetIndex;
+    private int lastActiveTargetIndex;
+    private Vector3 lastActiveTargetPosition; // Last active target position
 
     [Header("Body Parts")]
     public Transform hips;
@@ -94,6 +96,8 @@ public class WalkerAgent : Agent
         MTargetWalkingSpeed = randomizeWalkSpeedEachEpisode ? Random.Range(0.1f, m_maxWalkingSpeed) : MTargetWalkingSpeed;
 
         currentTargetIndex = 0;
+        lastActiveTargetIndex = 0;
+        lastActiveTargetPosition = targets[0].position; // Start at the first target position
 
         foreach (var target in targets)
         {
@@ -103,6 +107,16 @@ public class WalkerAgent : Agent
         if (targets.Count > 0)
         {
             targets[currentTargetIndex].gameObject.SetActive(true);
+        }
+    }
+
+    public void UpdateLastActiveTargetIndex(Transform target)
+    {
+        int index = targets.IndexOf(target);
+        if (index != -1)
+        {
+            lastActiveTargetIndex = index;
+            lastActiveTargetPosition = target.position;
         }
     }
 
@@ -251,5 +265,10 @@ public class WalkerAgent : Agent
         var velDeltaMagnitude = Mathf.Clamp(Vector3.Distance(actualVelocity, velocityGoal), 0, MTargetWalkingSpeed);
 
         return Mathf.Pow(1 - Mathf.Pow(velDeltaMagnitude / MTargetWalkingSpeed, 2), 2);
+    }
+
+    public void RespawnAgentAtLastActiveTarget()
+    {
+        hips.position = lastActiveTargetPosition;
     }
 }

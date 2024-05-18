@@ -27,6 +27,7 @@ namespace Unity.MLAgentsExamples
         public float fallDistance = 5;
 
         private Vector3 m_startingPos;
+        private WalkerAgent walkerAgent; // Reference to the WalkerAgent
 
         [System.Serializable]
         public class TriggerEvent : UnityEvent<Collider> { }
@@ -51,6 +52,8 @@ namespace Unity.MLAgentsExamples
             {
                 MoveTargetToRandomPosition();
             }
+
+            walkerAgent = FindObjectOfType<WalkerAgent>(); // Find the WalkerAgent in the scene
         }
 
         void Update()
@@ -88,6 +91,11 @@ namespace Unity.MLAgentsExamples
                 }
 
                 gameObject.SetActive(false); // Deactivate current target
+
+                if (walkerAgent != null)
+                {
+                    walkerAgent.UpdateLastActiveTargetIndex(transform);
+                }
             }
         }
 
