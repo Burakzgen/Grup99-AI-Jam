@@ -1,7 +1,6 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
-using Unity.MLAgents;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Unity.MLAgentsExamples
 {
@@ -14,22 +13,23 @@ namespace Unity.MLAgentsExamples
     {
 
         [Header("Collider Tag To Detect")]
-        public string tagToDetect = "agent"; //collider tag to detect
+        public string tagToDetect = "agent";
 
         [Header("Target Placement")]
-        public float spawnRadius; //The radius in which a target can be randomly spawned.
-        public bool respawnIfTouched; //Should the target respawn to a different position when touched
+        public float spawnRadius;
+        public bool respawnIfTouched;
+
+        [Header("Next Target")]
+        public GameObject nextTarget; // The next target to activate
 
         [Header("Target Fell Protection")]
-        public bool respawnIfFallsOffPlatform = true; //If the target falls off the platform, reset the position.
-        public float fallDistance = 5; //distance below the starting height that will trigger a respawn
+        public bool respawnIfFallsOffPlatform = true;
+        public float fallDistance = 5;
 
-        private Vector3 m_startingPos; //the starting position of the target
+        private Vector3 m_startingPos;
 
         [System.Serializable]
-        public class TriggerEvent : UnityEvent<Collider>
-        {
-        }
+        public class TriggerEvent : UnityEvent<Collider> { }
 
         [Header("Trigger Callbacks")]
         public TriggerEvent onTriggerEnterEvent = new TriggerEvent();
@@ -37,16 +37,13 @@ namespace Unity.MLAgentsExamples
         public TriggerEvent onTriggerExitEvent = new TriggerEvent();
 
         [System.Serializable]
-        public class CollisionEvent : UnityEvent<Collision>
-        {
-        }
+        public class CollisionEvent : UnityEvent<Collision> { }
 
         [Header("Collision Callbacks")]
         public CollisionEvent onCollisionEnterEvent = new CollisionEvent();
         public CollisionEvent onCollisionStayEvent = new CollisionEvent();
         public CollisionEvent onCollisionExitEvent = new CollisionEvent();
 
-        // Start is called before the first frame update
         void OnEnable()
         {
             m_startingPos = transform.position;
@@ -68,9 +65,6 @@ namespace Unity.MLAgentsExamples
             }
         }
 
-        /// <summary>
-        /// Moves target to a random position within specified radius.
-        /// </summary>
         public void MoveTargetToRandomPosition()
         {
             var newTargetPos = m_startingPos + (Random.insideUnitSphere * spawnRadius);
@@ -87,6 +81,13 @@ namespace Unity.MLAgentsExamples
                 {
                     MoveTargetToRandomPosition();
                 }
+
+                if (nextTarget != null)
+                {
+                    nextTarget.SetActive(true); // Activate the next target
+                }
+
+                gameObject.SetActive(false); // Deactivate current target
             }
         }
 
