@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7834217349789527598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3505228400322940976}
+  - component: {fileID: 3500627306162940062}
+  - component: {fileID: 8824687192238675153}
+  - component: {fileID: 4481095306623678622}
+  - component: {fileID: 7346066144350856119}
+  - component: {fileID: -3218817976781659769}
+  - component: {fileID: 6284299048373502438}
+  - component: {fileID: 3183728664511767001}
+  - component: {fileID: 2150305198668110631}
+  m_Layer: 0
+  m_Name: GrassInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3505228400322940976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3500627306162940062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: a3b09f2482e782048aaca805d7ce14fa, type: 2}
+  player: {fileID: 0}
+--- !u!114 &8824687192238675153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: 42243305eb2e101499548cda488b4914, type: 2}
+  player: {fileID: 0}
+--- !u!114 &4481095306623678622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: a40dab8f8884d30448e033c5994f82f1, type: 2}
+  player: {fileID: 0}
+--- !u!114 &7346066144350856119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: b3eba5973861b3b43be049d568faa638, type: 2}
+  player: {fileID: 0}
+--- !u!114 &-3218817976781659769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: a1c9e7414bd524c47b46b33b34dd4db0, type: 2}
+  player: {fileID: 0}
+--- !u!114 &6284299048373502438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: 3d7181e3f3e174c4f8038e87dac61e41, type: 2}
+  player: {fileID: 0}
+--- !u!114 &3183728664511767001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: 7e4ca37106caa0546a5391a4ee57a4cd, type: 2}
+  player: {fileID: 0}
+--- !u!114 &2150305198668110631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834217349789527598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b37f9b015d50bc4d98d85ab65d637da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrassMaterial: {fileID: 2100000, guid: c8ef78c745600b2489fea1780c36f353, type: 2}
+  player: {fileID: 0}
