@@ -7,8 +7,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Button _startButton, _showTeamButton, _hideTeamButton, _quitButton;
     bool _isActive = false;
     [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel;
+    AudioSource _audioSource;
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _startButton.onClick.AddListener(StartGame);
         _showTeamButton.onClick.AddListener(ShowTeamPanel);
         _hideTeamButton.onClick.AddListener(HideTeamPanel);
@@ -17,6 +19,7 @@ public class MenuManager : MonoBehaviour
 
     void StartGame()
     {
+        _audioSource.Play();
         _loadingPanel.GetComponent<Image>().DOFade(1f, 0.3f).SetEase(Ease.InQuart).OnComplete(() => UnityEngine.SceneManagement.SceneManager.LoadScene(1));
     }
     void ShowTeamPanel()
@@ -41,6 +44,7 @@ public class MenuManager : MonoBehaviour
     void QuitGame() => Application.Quit();
     void PanelEffect(GameObject panel, float endValue, float durationTime, Ease ease, TweenCallback tweenCallback = null)
     {
+        _audioSource.Play();
         panel.transform.GetChild(0).transform.DOScale(endValue, durationTime).SetEase(ease).OnComplete(() =>
         {
             tweenCallback?.Invoke();
