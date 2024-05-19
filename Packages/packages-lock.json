@@ -7,6 +7,14 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.siccity.gltfutility": {
+      "version": "file:../GLTFUtility-0.7",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      }
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
