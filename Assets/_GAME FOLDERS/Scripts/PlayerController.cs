@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     CameraController cameraController;
     CharacterController characterController;
     Animator animator;
+    bool isCutSceneActive = false;
+    AnimatorStateInfo previousAnimationState;
 
     private void Awake()
     {
@@ -28,15 +31,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isCutSceneActive) return;
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-
         v = Mathf.Clamp(v, 0, 1);
-
         float moveAmount = Mathf.Abs(h) + Mathf.Abs(v);
-
         var moveInput = (new Vector3(h, 0, v)).normalized;
-
         var moveDir = cameraController.PlanarRotation * moveInput;
 
         GroundCheck();
@@ -52,7 +53,6 @@ public class PlayerController : MonoBehaviour
 
         var velocity = moveDir * moveSpeed;
         velocity.y = ySpeed;
-
         characterController.Move(velocity * Time.deltaTime);
 
         if (moveAmount > 0)
@@ -61,13 +61,41 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
         animator.SetFloat("Speed", moveAmount);
     }
 
     void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    }
+
+    public void StartCutScene(Transform lookAtPoint, float duration)
+    {
+        StartCoroutine(CutSceneCoroutine(lookAtPoint, duration));
+    }
+
+    private IEnumerator CutSceneCoroutine(Transform lookAtPoint, float duration)
+    {
+        isCutSceneActive = true;
+        previousAnimationState = animator.GetCurrentAnimatorStateInfo(0);
+        animator.enabled = false;
+
+        cameraController.LookAtPoint(lookAtPoint);
+        Quaternion lookRotation = Quaternion.LookRotation(lookAtPoint.position - transform.position);
+        float timer = 0;
+
+        while (timer < duration)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        animator.enabled = true;
+        cameraController.ResetCamera();
+        isCutSceneActive = false;
     }
 
     private void OnDrawGizmos()

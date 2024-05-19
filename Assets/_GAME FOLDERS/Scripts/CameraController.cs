@@ -31,17 +31,19 @@ public class CameraController : MonoBehaviour
 
     float invertXVal;
     float invertYVal;
-
+    bool isLookingAtPoint = false;
+    Transform lookAtPoint;
+    float originalFOV;
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        originalFOV = Camera.main.fieldOfView;
 
         if (cameraMode == CameraMode.FreeControl)
         {
             followZOffset = -2;
             framingOffset = new Vector2(0, 1);
-
         }
         else
         {
@@ -52,6 +54,14 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (isLookingAtPoint)
+        {
+            Vector3 direction = lookAtPoint.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, followDelay);
+            return;
+        }
+
         invertXVal = (invertCameraX) ? -1 : 1;
         invertYVal = (invertCameraY) ? -1 : 1;
 
@@ -65,7 +75,6 @@ public class CameraController : MonoBehaviour
         }
 
         var targetRotation = Quaternion.Euler(0, rotationY, 0);
-
         var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y, 0);
 
         if (cameraMode == CameraMode.FollowPlayer)
@@ -79,4 +88,17 @@ public class CameraController : MonoBehaviour
     }
 
     public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);
+
+    public void LookAtPoint(Transform point)
+    {
+        lookAtPoint = point;
+        isLookingAtPoint = true;
+        Camera.main.fieldOfView = 21f;
+    }
+
+    public void ResetCamera()
+    {
+        isLookingAtPoint = false;
+        Camera.main.fieldOfView = originalFOV;
+    }
 }
