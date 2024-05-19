@@ -13,6 +13,7 @@ public class NPCMovement : MonoBehaviour
 
     private void Start()
     {
+        animator.Play("MediumRun");
         if (waypoints.Count > 0)
         {
             StartCoroutine(MoveToNextWaypoint());
