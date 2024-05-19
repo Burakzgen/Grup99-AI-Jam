@@ -11,9 +11,11 @@ public class FinishLine : MonoBehaviour
     [SerializeField] float victoryDuration = 3f; // Victory animasyonu süresi
     [SerializeField] CameraController camareController;
     private Animator _animator;
-
+    [SerializeField] GameObject _particalSystems;
+    AudioSource _audioSource;
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _homeButton.onClick.AddListener(HomeButton);
     }
 
@@ -28,11 +30,12 @@ public class FinishLine : MonoBehaviour
 
     private IEnumerator EndSequence(Collider player)
     {
+        _audioSource.Play();
         // Karakterin kontrolünü devre dışı bırak
         player.gameObject.GetComponent<PlayerController>().enabled = false;
         camareController.enabled = false;
         _animator.SetFloat("Speed", 0);
-
+        _particalSystems.gameObject.SetActive(true);
         // Kamerayı hedef pozisyona taşı
         Vector3 initialPosition = Camera.main.transform.position;
         Quaternion initialRotation = Camera.main.transform.rotation;
@@ -62,6 +65,9 @@ public class FinishLine : MonoBehaviour
         // Paneli aktif et ve ölçeklendirme animasyonunu çalıştır
         _finishPanel.SetActive(true);
         _finishPanel.transform.GetChild(0).DOScale(1, 0.75f).SetEase(Ease.OutQuad);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void HomeButton()
