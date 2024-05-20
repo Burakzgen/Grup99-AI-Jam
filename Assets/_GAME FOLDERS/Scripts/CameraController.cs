@@ -8,7 +8,9 @@ public class CameraController : MonoBehaviour
         FollowPlayer
     }
 
-    [SerializeField] Transform followTarget;
+    Transform followTarget;
+    [SerializeField] Transform followWomanTarget;
+    [SerializeField] Transform followManTarget;
     [SerializeField] CameraMode cameraMode = CameraMode.FreeControl;
 
     [SerializeField] bool mouseControl = true;
@@ -34,6 +36,15 @@ public class CameraController : MonoBehaviour
     bool isLookingAtPoint = false;
     Transform lookAtPoint;
     float originalFOV;
+    private void Awake()
+    {
+        if (PlayerPrefs.GetString("CharacterType") == "Woman")
+        {
+            followTarget = followWomanTarget;
+        }
+        else
+            followTarget = followManTarget;
+    }
     private void Start()
     {
         Cursor.visible = false;

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Countdown : MonoBehaviour
 {
     [SerializeField] GameObject[] _objects;
+    [SerializeField] GameObject _womanObject, _manObject;
     [SerializeField] private Text countdownText;
     [SerializeField] private GameObject panelToClose;
     [SerializeField] private float countdownDuration = 1f;
@@ -38,5 +39,12 @@ public class Countdown : MonoBehaviour
         {
             _objects[i].SetActive(true);
         }
+        if (PlayerPrefs.GetString("CharacterType") == "Woman")
+        {
+            _womanObject.SetActive(true);
+        }
+        else
+            _manObject.SetActive(true);
+
     }
 }

@@ -6,13 +6,15 @@ public class MenuManager : MonoBehaviour
 {
     [SerializeField] Button _startButton, _showTeamButton, _ShowOptionsButton, _hideTeamButton, _hideOptionsButton, _quitButton;
     bool _isActive = false;
-    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel, _optionsPanel;
+    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel, _optionsPanel, _modePanel, _typePanel;
     AudioSource _audioSource;
     [SerializeField] Button _easyMode, _hardMode;
+    [SerializeField] Button _womanType, _manType;
     private void Start()
     {
 
         PlayerPrefs.SetFloat("Coefficient", 1f);
+        PlayerPrefs.SetString("CharacterType", "Man");
 
         _audioSource = GetComponent<AudioSource>();
         _startButton.onClick.AddListener(StartGame);
@@ -22,6 +24,9 @@ public class MenuManager : MonoBehaviour
         _hideOptionsButton.onClick.AddListener(HideOptionsPanel);
         _easyMode.onClick.AddListener(() => ModeSelected("Easy"));
         _hardMode.onClick.AddListener(() => ModeSelected("Hard"));
+
+        _womanType.onClick.AddListener(() => CharacterTypeSelected("Woman"));
+        _manType.onClick.AddListener(() => CharacterTypeSelected("Man"));
         _quitButton.onClick.AddListener(QuitGame);
 
     }
@@ -73,6 +78,25 @@ public class MenuManager : MonoBehaviour
         else
             PlayerPrefs.SetFloat("Coefficient", 2f);
 
-        HideOptionsPanel();
+        _typePanel.SetActive(true);
+        _typePanel.transform.DOScale(1f, 0.2f).SetEase(Ease.InCirc).OnComplete(() =>
+        {
+            _modePanel.SetActive(false);
+        });
+    }
+    void CharacterTypeSelected(string mode)
+    {
+        if (mode == "Woman")
+            PlayerPrefs.SetString("CharacterType", "Woman");
+        else
+            PlayerPrefs.SetString("CharacterType", "Man");
+
+        _typePanel.transform.DOScale(0.2f, 0.2f).SetEase(Ease.OutCirc).OnComplete(() =>
+        {
+            _typePanel.SetActive(false);
+            _optionsPanel.SetActive(false);
+            _modePanel.SetActive(true);
+            _optionsPanel.transform.GetChild(0).localScale = Vector3.zero;
+        });
     }
 }
