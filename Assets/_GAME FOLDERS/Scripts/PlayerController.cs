@@ -94,11 +94,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CutSceneCoroutine(Transform lookAtPoint, float duration)
     {
         isCutSceneActive = true;
-        animator.SetFloat("Speed", 0);
+        animator.SetBool("Neck", true);
         _stunPartical.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.25f);
+        animator.SetBool("Neck", false);
         _stunPartical.gameObject.SetActive(false);
-        animator.enabled = false;
+        animator.SetFloat("Speed", 0);
         cameraController.LookAtPoint(lookAtPoint);
 
         Vector3 direction = (lookAtPoint.position - transform.position).normalized;

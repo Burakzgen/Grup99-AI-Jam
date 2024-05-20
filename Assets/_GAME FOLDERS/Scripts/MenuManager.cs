@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] Button _startButton, _showTeamButton, _ShowOptionsButton, _hideTeamButton, _hideOptionsButton, _quitButton;
+    [SerializeField] Button _startButton, _showTeamButton, _hideTeamButton, _hideOptionsButton, _quitButton;
     bool _isActive = false;
-    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel, _optionsPanel, _modePanel, _typePanel;
+    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel, _startPanel, _modePanel, _typePanel;
     AudioSource _audioSource;
     [SerializeField] Button _easyMode, _hardMode;
     [SerializeField] Button _womanType, _manType;
@@ -19,9 +19,7 @@ public class MenuManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _startButton.onClick.AddListener(StartGame);
         _showTeamButton.onClick.AddListener(ShowTeamPanel);
-        _ShowOptionsButton.onClick.AddListener(ShowOptionsPanel);
         _hideTeamButton.onClick.AddListener(HideTeamPanel);
-        _hideOptionsButton.onClick.AddListener(HideOptionsPanel);
         _easyMode.onClick.AddListener(() => ModeSelected("Easy"));
         _hardMode.onClick.AddListener(() => ModeSelected("Hard"));
 
@@ -33,8 +31,10 @@ public class MenuManager : MonoBehaviour
 
     void StartGame()
     {
-        _audioSource.Play();
-        _loadingPanel.GetComponent<Image>().DOFade(1f, 0.3f).SetEase(Ease.InQuart).OnComplete(() => UnityEngine.SceneManagement.SceneManager.LoadScene(1));
+        _startPanel.SetActive(true);
+        PanelEffect(_startPanel, 1f, 0.3f, Ease.InCirc);
+        _startPanel.transform.GetChild(1).transform.DOScale(1f, 0.3f).SetEase(Ease.InCirc);
+
     }
     void ShowTeamPanel()
     {
@@ -43,13 +43,7 @@ public class MenuManager : MonoBehaviour
     }
     void HideTeamPanel() =>
         PanelEffect(_teamPanel, 0.2f, 0.2f, Ease.OutCirc, () => _teamPanel.SetActive(false));
-    void ShowOptionsPanel()
-    {
-        _optionsPanel.SetActive(true);
-        PanelEffect(_optionsPanel, 1f, 0.3f, Ease.InCirc);
-    }
-    void HideOptionsPanel() =>
-        PanelEffect(_optionsPanel, 0.2f, 0.2f, Ease.OutCirc, () => _optionsPanel.SetActive(false));
+
     public void ShowHidePanel()
     {
         _isActive = !_isActive;
@@ -91,12 +85,7 @@ public class MenuManager : MonoBehaviour
         else
             PlayerPrefs.SetString("CharacterType", "Man");
 
-        _typePanel.transform.DOScale(0.2f, 0.2f).SetEase(Ease.OutCirc).OnComplete(() =>
-        {
-            _typePanel.SetActive(false);
-            _optionsPanel.SetActive(false);
-            _modePanel.SetActive(true);
-            _optionsPanel.transform.GetChild(0).localScale = Vector3.zero;
-        });
+
+        _loadingPanel.GetComponent<Image>().DOFade(1f, 0.3f).SetEase(Ease.InQuart).OnComplete(() => UnityEngine.SceneManagement.SceneManager.LoadScene(1));
     }
 }

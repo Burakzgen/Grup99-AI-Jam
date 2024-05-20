@@ -28,7 +28,7 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -124,7 +124,7 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _Wiggle_Offset: 0.595
-    - _Wind_Speed: 0.64
+    - _Wind_Speed: 0.475
     - _Wind_Strength: 0.104
     - _WorkflowMode: 1
     - _ZWrite: 1
