@@ -10,22 +10,22 @@ public class NPCMovement : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private int currentWaypointIndex = 0;
-
     private void Start()
     {
+        float value = PlayerPrefs.GetFloat("Coefficient");
+        moveSpeed *= value;
+
         animator.Play("MediumRun");
         if (waypoints.Count > 0)
         {
             StartCoroutine(MoveToNextWaypoint());
         }
-        else
-        {
-            Debug.LogWarning("Waypoints list is empty!");
-        }
     }
 
     private IEnumerator MoveToNextWaypoint()
     {
+
+
         while (currentWaypointIndex < waypoints.Count)
         {
             Transform targetWaypoint = waypoints[currentWaypointIndex];

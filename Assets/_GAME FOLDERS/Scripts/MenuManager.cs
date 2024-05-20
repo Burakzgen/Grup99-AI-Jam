@@ -4,17 +4,26 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] Button _startButton, _showTeamButton, _hideTeamButton, _quitButton;
+    [SerializeField] Button _startButton, _showTeamButton, _ShowOptionsButton, _hideTeamButton, _hideOptionsButton, _quitButton;
     bool _isActive = false;
-    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel;
+    [SerializeField] GameObject _teamPanel, _warningPanel, _loadingPanel, _optionsPanel;
     AudioSource _audioSource;
+    [SerializeField] Button _easyMode, _hardMode;
     private void Start()
     {
+
+        PlayerPrefs.SetFloat("Coefficient", 1f);
+
         _audioSource = GetComponent<AudioSource>();
         _startButton.onClick.AddListener(StartGame);
         _showTeamButton.onClick.AddListener(ShowTeamPanel);
+        _ShowOptionsButton.onClick.AddListener(ShowOptionsPanel);
         _hideTeamButton.onClick.AddListener(HideTeamPanel);
+        _hideOptionsButton.onClick.AddListener(HideOptionsPanel);
+        _easyMode.onClick.AddListener(() => ModeSelected("Easy"));
+        _hardMode.onClick.AddListener(() => ModeSelected("Hard"));
         _quitButton.onClick.AddListener(QuitGame);
+
     }
 
     void StartGame()
@@ -29,7 +38,13 @@ public class MenuManager : MonoBehaviour
     }
     void HideTeamPanel() =>
         PanelEffect(_teamPanel, 0.2f, 0.2f, Ease.OutCirc, () => _teamPanel.SetActive(false));
-
+    void ShowOptionsPanel()
+    {
+        _optionsPanel.SetActive(true);
+        PanelEffect(_optionsPanel, 1f, 0.3f, Ease.InCirc);
+    }
+    void HideOptionsPanel() =>
+        PanelEffect(_optionsPanel, 0.2f, 0.2f, Ease.OutCirc, () => _optionsPanel.SetActive(false));
     public void ShowHidePanel()
     {
         _isActive = !_isActive;
@@ -49,5 +64,15 @@ public class MenuManager : MonoBehaviour
         {
             tweenCallback?.Invoke();
         });
+    }
+
+    void ModeSelected(string mode)
+    {
+        if (mode == "Easy")
+            PlayerPrefs.SetFloat("Coefficient", 1f);
+        else
+            PlayerPrefs.SetFloat("Coefficient", 2f);
+
+        HideOptionsPanel();
     }
 }
