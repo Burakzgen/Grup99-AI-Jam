@@ -7,36 +7,37 @@ public class CameraController : MonoBehaviour
         FreeControl,
         FollowPlayer
     }
-
+    // Follow
     Transform followTarget;
     [SerializeField] Transform followWomanTarget;
     [SerializeField] Transform followManTarget;
-    [SerializeField] CameraMode cameraMode = CameraMode.FreeControl;
 
+    [SerializeField] CameraMode cameraMode = CameraMode.FreeControl;
     [SerializeField] bool mouseControl = true;
 
+    // Mode settings
     [SerializeField] float rotationSpeed = 2f;
     [SerializeField] float distance = 5f;
-    [SerializeField] float followDelay = 0.1f; // Takip gecikmesi
-
-    //[SerializeField] float minVerticalAngle = -45f;
-    //[SerializeField] float maxVerticalAngle = 45f;
-
+    [SerializeField] float followDelay = 0.1f;
     Vector2 framingOffset;
-    [SerializeField] float followHeightOffset = 2f; // Y ekseni offset
-    float followZOffset = -2f; // Z ekseni offset
-
+    [SerializeField] float followHeightOffset = 2f;
+    float followZOffset = -2f;
+    // Mouse
     [SerializeField] bool invertCameraX;
     [SerializeField] bool invertCameraY;
 
+    // Private
     float rotationY;
-
     float invertXVal;
     float invertYVal;
     bool isLookingAtPoint = false;
     Transform lookAtPoint;
     float originalFOV;
     private void Awake()
+    {
+        Initalize();
+    }
+    void Initalize()
     {
         if (PlayerPrefs.GetString("CharacterType") == "Woman")
         {
@@ -50,13 +51,17 @@ public class CameraController : MonoBehaviour
         else
             cameraMode = CameraMode.FollowPlayer;
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        originalFOV = Camera.main.fieldOfView;
     }
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        originalFOV = Camera.main.fieldOfView;
-
+        InitalizeCameraMode();
+    }
+    void InitalizeCameraMode()
+    {
         if (cameraMode == CameraMode.FreeControl)
         {
             followZOffset = -2;
@@ -68,7 +73,6 @@ public class CameraController : MonoBehaviour
             framingOffset = new Vector2(0, -1);
         }
     }
-
     private void Update()
     {
         if (isLookingAtPoint)
