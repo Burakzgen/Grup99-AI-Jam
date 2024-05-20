@@ -81,9 +81,12 @@ public class PlayerController : MonoBehaviour
         animator.enabled = false;
 
         cameraController.LookAtPoint(lookAtPoint);
-        Quaternion lookRotation = Quaternion.LookRotation(lookAtPoint.position - transform.position);
-        float timer = 0;
 
+        Vector3 direction = (lookAtPoint.position - transform.position).normalized;
+        direction.y = 0; // Y eksenini sıfırla ki sadece yatay düzlemde döndürsün
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        float timer = 0;
         while (timer < duration)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, timer / duration);
@@ -98,9 +101,9 @@ public class PlayerController : MonoBehaviour
         isCutSceneActive = false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0, 1, 0, 0.5f);
-        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = new Color(0, 1, 0, 0.5f);
+    //    Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
+    //}
 }
