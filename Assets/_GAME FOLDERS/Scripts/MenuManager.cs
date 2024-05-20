@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("CharacterType"))
             PlayerPrefs.SetString("CharacterType", "Man");
         if (!PlayerPrefs.HasKey("CameraMode"))
-            PlayerPrefs.SetInt("CameraMode", 1);
+            PlayerPrefs.SetInt("CameraMode", 0);
     }
     private void Start()
     {
