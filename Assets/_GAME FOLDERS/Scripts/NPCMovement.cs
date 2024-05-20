@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ASI model için el ile takip sistemi
 public class NPCMovement : MonoBehaviour
 {
     [SerializeField] private List<Transform> waypoints;
@@ -12,6 +13,10 @@ public class NPCMovement : MonoBehaviour
     private int currentWaypointIndex = 0;
     private void Start()
     {
+        Initalize();
+    }
+    void Initalize()
+    {
         float value = PlayerPrefs.GetFloat("Coefficient");
         moveSpeed *= value;
 
@@ -21,11 +26,8 @@ public class NPCMovement : MonoBehaviour
             StartCoroutine(MoveToNextWaypoint());
         }
     }
-
     private IEnumerator MoveToNextWaypoint()
     {
-
-
         while (currentWaypointIndex < waypoints.Count)
         {
             Transform targetWaypoint = waypoints[currentWaypointIndex];
@@ -47,22 +49,4 @@ public class NPCMovement : MonoBehaviour
             animator.Play("Falling");
         }
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    if (waypoints != null)
-    //    {
-    //        for (int i = 0; i < waypoints.Count; i++)
-    //        {
-    //            Gizmos.color = Color.red;
-    //            Gizmos.DrawSphere(waypoints[i].position, 0.3f);
-
-    //            if (i < waypoints.Count - 1)
-    //            {
-    //                Gizmos.color = Color.yellow;
-    //                Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-    //            }
-    //        }
-    //    }
-    //}
 }

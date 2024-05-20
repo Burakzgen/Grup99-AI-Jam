@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class Countdown : MonoBehaviour
 {
-    [SerializeField] GameObject[] _objects;
+    [SerializeField] GameObject[] _objects; // Aktif olacak olan karakterler
     [SerializeField] GameObject _womanObject, _manObject;
+
     [SerializeField] private Text countdownText;
     [SerializeField] private GameObject panelToClose;
     [SerializeField] private float countdownDuration = 1f;
@@ -14,12 +15,14 @@ public class Countdown : MonoBehaviour
     AudioSource _audioSourceComp;
     private void Start()
     {
+        Initalize();
+    }
+    void Initalize()
+    {
         _audioSourceComp = GetComponent<AudioSource>();
-
         c_WaitForSeconds = new WaitForSeconds(countdownDuration);
         StartCoroutine(CountdownSequence());
     }
-
     private IEnumerator CountdownSequence()
     {
         for (int i = 3; i > 0; i--)
@@ -39,12 +42,8 @@ public class Countdown : MonoBehaviour
         {
             _objects[i].SetActive(true);
         }
-        if (PlayerPrefs.GetString("CharacterType") == "Woman")
-        {
-            _womanObject.SetActive(true);
-        }
-        else
-            _manObject.SetActive(true);
 
+        if (PlayerPrefs.GetString("CharacterType") == "Woman") _womanObject.SetActive(true);
+        else _manObject.SetActive(true);
     }
 }

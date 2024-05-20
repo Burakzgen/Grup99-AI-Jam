@@ -8,11 +8,13 @@ public class FinishLine : MonoBehaviour
     [SerializeField] Button _homeButton;
     [SerializeField] Transform cameraTargetPosition; // Kameranın bakacağı pozisyon
     [SerializeField] float cameraMoveDuration = 2f; // Kameranın hareket süresi
-    [SerializeField] float victoryDuration = 3f; // Victory animasyonu süresi
+    [SerializeField] float victoryDuration = 3f;
     [SerializeField] CameraController camareController;
-    private Animator _animator;
     [SerializeField] GameObject _particalSystems;
-    AudioSource _audioSource;
+
+    // Private
+    private Animator _animator;
+    private AudioSource _audioSource;
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -31,12 +33,12 @@ public class FinishLine : MonoBehaviour
     private IEnumerator EndSequence(Collider player)
     {
         _audioSource.Play();
-        // Karakterin kontrolünü devre dışı bırak
+
         player.gameObject.GetComponent<PlayerController>().enabled = false;
         camareController.enabled = false;
         _animator.SetFloat("Speed", 0);
         _particalSystems.gameObject.SetActive(true);
-        // Kamerayı hedef pozisyona taşı
+
         Vector3 initialPosition = Camera.main.transform.position;
         Quaternion initialRotation = Camera.main.transform.rotation;
         Vector3 targetPosition = cameraTargetPosition.position;
@@ -54,15 +56,12 @@ public class FinishLine : MonoBehaviour
         Camera.main.transform.position = targetPosition;
         Camera.main.transform.rotation = targetRotation;
 
-        // Karakterin Y ekseninde 180 derece dönmesini sağla
         player.transform.DORotate(new Vector3(0, -135.69f, 0), victoryDuration);
-        // Victory animasyonunu oynat
-        _animator.Play("Victory"); // "Victory" animasyon klip ismi olmalı
 
-        // Victory animasyon süresini bekle
+        _animator.Play("Victory");
+
         yield return new WaitForSeconds(victoryDuration);
 
-        // Paneli aktif et ve ölçeklendirme animasyonunu çalıştır
         _finishPanel.SetActive(true);
         _finishPanel.transform.GetChild(0).DOScale(1, 0.75f).SetEase(Ease.OutQuad);
 

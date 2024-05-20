@@ -15,14 +15,11 @@ public class CameraCutscene : MonoBehaviour
 
     private IEnumerator CutsceneAndCountdown()
     {
-        Camera.main.transform.position = initialCameraPosition.position;
-        Camera.main.transform.rotation = initialCameraPosition.rotation;
-
+        Camera.main.transform.SetPositionAndRotation(initialCameraPosition.position, initialCameraPosition.rotation);
         Camera.main.transform.DOMove(targetCameraPosition.position, moveDuration).SetEase(Ease.InOutQuad);
         Camera.main.transform.DORotateQuaternion(targetCameraPosition.rotation, moveDuration).SetEase(Ease.InOutQuad);
 
         yield return new WaitForSeconds(moveDuration);
         m_CameraController.enabled = true;
     }
-
 }

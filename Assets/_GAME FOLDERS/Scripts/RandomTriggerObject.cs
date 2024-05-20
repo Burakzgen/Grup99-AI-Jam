@@ -11,7 +11,6 @@ public class RandomTriggerObject : MonoBehaviour
     {
         ActivateRandomObjects();
     }
-
     private void ActivateRandomObjects()
     {
         foreach (GameObject obj in objectsList)

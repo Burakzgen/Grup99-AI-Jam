@@ -5,14 +5,19 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
+    // Controls
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float rotationSpeed = 500f;
     [SerializeField] float groundCheckRadius = 0.2f;
     [SerializeField] Vector3 groundCheckOffset;
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] Volume globalVolume; // Volume referansı
-    [SerializeField] float maxChromaticAberration = 1f; // Maksimum chromatic aberration değeri
 
+    // Effects
+    [SerializeField] Volume globalVolume;
+    [SerializeField] float maxChromaticAberration = 0.75f;
+    [SerializeField] ParticleSystem _stunPartical;
+
+    // Private 
     bool isGrounded;
     float ySpeed;
     Quaternion targetRotation;
@@ -21,24 +26,21 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     ChromaticAberration chromaticAberration;
     bool isCutSceneActive = false;
-    [SerializeField] ParticleSystem _stunPartical;
     private void Awake()
+    {
+        Initalize();
+    }
+    void Initalize()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
 
-        // Volume içinden Chromatic Aberration bileşenini alın
         if (globalVolume != null)
         {
             globalVolume.profile.TryGet(out chromaticAberration);
         }
-        else
-        {
-            Debug.LogError("Global Volume referansı atanmadı!");
-        }
     }
-
     private void Update()
     {
         if (isCutSceneActive) return;
@@ -73,14 +75,12 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         animator.SetFloat("Speed", moveAmount);
 
-        // Chromatic Aberration efektini hızla orantılı olarak ayarlayın
         if (chromaticAberration != null)
         {
             float chromaticAberrationAmount = Mathf.Lerp(0, maxChromaticAberration, moveAmount);
             chromaticAberration.intensity.value = chromaticAberrationAmount;
         }
     }
-
     void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
@@ -96,14 +96,16 @@ public class PlayerController : MonoBehaviour
         isCutSceneActive = true;
         animator.SetBool("Neck", true);
         _stunPartical.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(1.25f);
+
         animator.SetBool("Neck", false);
         _stunPartical.gameObject.SetActive(false);
         animator.SetFloat("Speed", 0);
         cameraController.LookAtPoint(lookAtPoint);
 
         Vector3 direction = (lookAtPoint.position - transform.position).normalized;
-        direction.y = 0; // Y eksenini sıfırla ki sadece yatay düzlemde döndürsün
+        direction.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
 
         float timer = 0;
@@ -121,9 +123,9 @@ public class PlayerController : MonoBehaviour
         isCutSceneActive = false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0, 1, 0, 0.5f);
-        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = new Color(0, 1, 0, 0.5f);
+    //    Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
+    //}
 }
