@@ -44,6 +44,12 @@ public class CameraController : MonoBehaviour
         }
         else
             followTarget = followManTarget;
+
+        if (PlayerPrefs.GetInt("CameraMode") == 0)
+            cameraMode = CameraMode.FreeControl;
+        else
+            cameraMode = CameraMode.FollowPlayer;
+
     }
     private void Start()
     {
