@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
         if (cameraMode == CameraMode.FreeControl)
         {
             followZOffset = -2;
-            framingOffset = new Vector2(0, 1);
+            framingOffset = new Vector2(0, 2.15f);
         }
         else
         {
@@ -90,8 +90,8 @@ public class CameraController : MonoBehaviour
 
         if (cameraMode == CameraMode.FollowPlayer)
         {
-            focusPosition.y += followHeightOffset;
             focusPosition.z += followZOffset;
+            focusPosition.y += followHeightOffset;
         }
 
         transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);

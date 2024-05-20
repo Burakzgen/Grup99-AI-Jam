@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     ChromaticAberration chromaticAberration;
     bool isCutSceneActive = false;
-
+    [SerializeField] ParticleSystem _stunPartical;
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
@@ -94,8 +94,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CutSceneCoroutine(Transform lookAtPoint, float duration)
     {
         isCutSceneActive = true;
+        animator.SetFloat("Speed", 0);
+        _stunPartical.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.25f);
+        _stunPartical.gameObject.SetActive(false);
         animator.enabled = false;
-
         cameraController.LookAtPoint(lookAtPoint);
 
         Vector3 direction = (lookAtPoint.position - transform.position).normalized;
